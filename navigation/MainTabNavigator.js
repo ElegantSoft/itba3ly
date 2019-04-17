@@ -45,7 +45,7 @@ export default createBottomTabNavigator({
     HomeStack,
 
 },{
-    initialRouteName: 'HomeStack',
+    initialRouteName: 'LinksStack',
     tabBarOptions:{
         inactiveBackgroundColor: '#22a6b3',
         inactiveTintColor:'#130f40',

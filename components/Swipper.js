@@ -46,7 +46,7 @@ export default class DeckSwiperExample extends Component {
                 <FlatList
                     horizontal
                     data={this.state.categories}
-                    keyExtractor={(x,i)=> i}
+                    keyExtractor={(x,i)=> i.toString()}
                     renderItem={({item})=>
                         <View style={{height:140,padding: 10,backgroundColor:'#130f40',
                             justifyContent: 'space-around',
@@ -54,7 +54,6 @@ export default class DeckSwiperExample extends Component {
                             alignItems: 'center',
                         }}>
                             <Thumbnail large source={{uri:item.image ? item.image.src : 'http://placeimg.com/640/480/any'}} />
-
                             <Text style={{color:'#fff' ,fontFamily:'cairo',fontSize:20,
                                 paddingBottom:15,
                                 textAlign:'center'}}>{item.name}
