@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Platform, ActivityIndicator} from 'react-native';
+import { StyleSheet, Platform, ActivityIndicator,View , Text} from 'react-native';
 import { WebView } from 'react-native-webview'
-export default class SettingsScreen extends React.Component {
+import {connect} from 'react-redux';
+class SettingsScreen extends React.Component {
     static navigationOptions = {
         header: null,
     };
@@ -15,24 +16,34 @@ export default class SettingsScreen extends React.Component {
             />
         );
     }
-
+    
     render() {
+        const id = this.props.navigation.getParam('id');
+        console.log(this.props.navigation);
         return (
             <WebView
                 style={styles.WebViewStyle}
-                source={{uri: 'http://design.elegantsoft.net/design-your-own/'}}
+                source={{uri: `https://itba3ly.com/design-your-own/?product_id=${this.props.itemId}`}}
                 javaScriptEnabled={true}
                 domStorageEnabled={true}
                 renderLoading={this.ActivityIndicatorLoadingView}
                 startInLoadingState={true}
                 allowFileAccess={true}
             />
+            // <View>
+            //     <Text>{this.props.itemId} this is the number</Text>
+            // </View>
+
         );
     }
 }
 
-
-
+const mapStateToProps  = state =>{
+    return {
+        itemId: state.woo.itemId
+    }
+}
+export default connect(mapStateToProps, {})(SettingsScreen)
 const styles = StyleSheet.create(
     {
         WebViewStyle:

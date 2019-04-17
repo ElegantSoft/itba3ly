@@ -19,6 +19,7 @@ HomeStack.navigationOptions = {
 
 const LinksStack = createStackNavigator({
     Links: LinksScreen,
+    Designs: SettingsScreen,
 });
 
 LinksStack.navigationOptions = {
@@ -45,7 +46,7 @@ export default createBottomTabNavigator({
     HomeStack,
 
 },{
-    initialRouteName: 'LinksStack',
+    initialRouteName: 'HomeStack',
     tabBarOptions:{
         inactiveBackgroundColor: '#22a6b3',
         inactiveTintColor:'#130f40',

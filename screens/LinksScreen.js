@@ -1,11 +1,64 @@
 import React, {Component} from 'react';
 import {View,Image , StyleSheet, ScrollView} from 'react-native';
 import { Container, Header, Content,Title, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { FlatList } from 'react-native-gesture-handler';
+import {fetchProducts, setItemId} from '../redux/actions';
+import {connect} from 'react-redux';
 
-export default class LinksScreen extends Component {
+class LinksScreen extends Component {
     static navigationOptions = {
         header: null,
     };
+    constructor(props){
+        super(props);
+        
+        
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps', nextProps);
+        // this.setState(nextProps);
+    }
+    navigateToProduct(id) {
+        this.props.setItemId(id)
+        this.props.navigation.navigate('SettingsStack')
+    }
+
+
+    // componentWillMount(){
+    //     this.props.fetchProducts();
+    // }
+    hasProducts(){
+        if(this.props.products){
+            
+                
+            return this.props.products.map((item,index)=>{
+                return(
+
+                <Card key={index} style={styles.ProductCard}>
+                    <CardItem cardBody>
+                    <Image source={{uri: item.images[0].src}} style={styles.productImage}/>
+                    </CardItem>
+                    <CardItem style={{flexDirection:'column'}} >
+                        <Text numberOfLines={2}  style={styles.productName}> {item.name} </Text>
+                        <Text style={styles.Price} >{item.price} ريال</Text>
+                    </CardItem>
+                    <CardItem style={{margin:0}}>
+                    <Body style={styles.ButtonsContainer} >
+                        <Button iconRight transparent style={[styles.ProductButton,]}
+                            onPress={() => {this.navigateToProduct(item.id)}}
+                        >
+                            <Icon style={styles.Icons} name='md-color-palette' />
+                        </Button>
+                        <Button iconLeft transparent style={[styles.ProductButton, ]}>
+                            <Icon  style={styles.Icons} name='share' />
+                        </Button>
+                    </Body>
+                    </CardItem>
+                </Card> 
+                )
+                })
+            }}         
+
     render() {
         return (
             <View>
@@ -18,27 +71,8 @@ export default class LinksScreen extends Component {
             </Header>
             <ScrollView>
             <View style={styles.productContainer}>
-                <Card style={styles.ProductCard}>
-                    <CardItem cardBody>
-                    <Image source={{uri: 'https://via.placeholder.com/350x150'}} style={styles.productImage}/>
-                    </CardItem>
-                    <CardItem style={{flexDirection:'column'}} >
-                        <Text numberOfLines={2}  style={styles.productName}> انا القطة المشمشية حلوة بس شقية نطت حتة نطة اكلت ورك البطة سوسو ليه زعلانة </Text>
-                        <Text style={styles.Price} >99 ريال</Text>
-                    </CardItem>
-                    <CardItem>
-                    <Body style={styles.ButtonsContainer} >
-                        <Button iconRight transparent style={[styles.ProductButton,]}>
-                        
-                            <Icon style={styles.Icons} name='md-color-palette' />
-                        </Button>
-                        <Button iconLeft transparent style={[styles.ProductButton, ]}>
-                            <Icon  style={styles.Icons} name='share' />
-                        </Button>
-                    </Body>
-                    </CardItem>
-                </Card>
-            </View>
+                {this.hasProducts()}
+                </View>
             </ScrollView>
             </View>
             
@@ -46,9 +80,15 @@ export default class LinksScreen extends Component {
     }
 
 }
+const mapStateToProps  = state =>{
+    return {
+        products: state.woo.products
+    }
+}
+export default connect(mapStateToProps, {fetchProducts,setItemId})(LinksScreen)
 const styles = StyleSheet.create({
     productImage: {
-        height:200,
+        height:150,
         flex:1,
         marginTop: 5,
         marginRight: 5,
@@ -56,9 +96,10 @@ const styles = StyleSheet.create({
     },
     ProductCard:{
         width:'48%',
-        marginBottom: 12,
-        height:390,
-        paddingBottom: 5,
+        marginBottom: 5,
+        height:300,
+        paddingBottom: 0,
+        padding:0
     },
     productContainer:{
         flexWrap:'wrap',
@@ -67,33 +108,35 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: 'space-between', 
         backgroundColor: '#f7f7f7',
-        // marginBottom:60,
+        marginBottom:60,
         
     },
     ProductButton:{
         backgroundColor: 'transparent',
         borderWidth:0,
+        
     },
     ButtonsContainer:{
         flexDirection:'row',
         alignSelf: 'stretch',
-        justifyContent:'space-around'
+        justifyContent:'space-around',
+        padding:0
     },
     Icons:{
         color:'#666',
-        fontSize: 30,
+        fontSize: 25,
     },
     productName:{
         textAlign:'left',
         width:'100%',
         fontFamily: 'cairo',
-        fontSize:17
+        fontSize:14
     },
     Price: {
         textAlign:'right',
         width:'100%',
         marginTop:5,
-        fontSize:17,
+        fontSize:12,
         fontFamily:'cairo'
     }
 })

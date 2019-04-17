@@ -9,8 +9,9 @@ import Slideshow from 'react-native-image-slider-show';
 import CategoryIcons from '../components/CategoryIcons';
 import Swipper from '../components/Swipper';
 import TryApp from '../components/TryApp';
-
-export default class HomeScreen extends React.Component {
+import {fetchProducts} from '../redux/actions';
+import {connect} from 'react-redux';
+class HomeScreen extends React.Component {
     static navigationOptions = {
         header: null,
     };
@@ -34,6 +35,8 @@ export default class HomeScreen extends React.Component {
     }
 
     componentWillMount() {
+        this.props.fetchProducts();
+
         this.setState({
             interval: setInterval(() => {
                 this.setState({
@@ -72,6 +75,12 @@ export default class HomeScreen extends React.Component {
 
 
 }
+const mapStateToProps  = state =>{
+    return {
+        products: state.woo.products
+    }
+}
+export default connect(mapStateToProps, {fetchProducts})(HomeScreen)
 
 const styles = StyleSheet.create({
     container: {

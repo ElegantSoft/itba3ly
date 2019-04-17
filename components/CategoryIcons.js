@@ -152,7 +152,7 @@ export default class CategoryIcon extends Component {
                         paddingBottom: 15,
                         width: '85%',
                         textAlign: 'center'
-                    }}>اخرج الابداع الذى بداخلك</Text>
+                    }}>اخرج الابداع </Text>
                 </View>
 
             </View>
